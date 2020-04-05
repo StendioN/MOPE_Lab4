@@ -144,7 +144,10 @@ f2 = N = 8
 fisher = f.isf(*[q / f2, f1, (f2 - 1) * f1])
 Gt = round(fisher / (fisher + (f2 - 1)), 4)
 print("Gp = " + str(Gp) + ", Gt = " + str(Gt))
-if Gp < Gt:
+if Gp > Gt:
+    print("Дисперсія  неоднорідна , збільшуємо m")
+    m += 1
+else:
     print("Gp < Gt -> Дисперсія однорідна\n")
     print("Критерій Стьюдента")
     sb = sum(dcouple) / N
@@ -248,5 +251,3 @@ if Gp < Gt:
     else:
         print("Fp < Ft -> Рівняння адекватне оригіналу")
 
-else:
-    print("Дисперсія  неоднорідна , збільшіть m")
