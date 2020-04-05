@@ -137,117 +137,118 @@ dcouple = [d1, d2, d3, d4, d5, d6, d7, d8]
 
 m = 3
 print("Критерій Кохрена")
-Gp = max(dcouple) / sum(dcouple)
-q = 0.05
-f1 = m - 1
-f2 = N = 8
-fisher = f.isf(*[q / f2, f1, (f2 - 1) * f1])
-Gt = round(fisher / (fisher + (f2 - 1)), 4)
-print("Gp = " + str(Gp) + ", Gt = " + str(Gt))
-if Gp > Gt:
-    print("Дисперсія  неоднорідна , збільшуємо m")
-    m += 1
-else:
-    print("Gp < Gt -> Дисперсія однорідна\n")
-    print("Критерій Стьюдента")
-    sb = sum(dcouple) / N
-    ssbs = sb / N * m
-    sbs = ssbs ** 0.5
-
-    beta0 = (y1_av1 * 1 + y2_av2 * 1 + y3_av3 * 1 + y4_av4 * 1 + y5_av5 * 1 + y6_av6 * 1 + y7_av7 * 1 + y8_av8 * 1) / 8
-    beta1 = (y1_av1 * (-1) + y2_av2 * (-1) + y3_av3 * (-1) + y4_av4 * (
-        -1) + y5_av5 * 1 + y6_av6 * 1 + y7_av7 * 1 + y8_av8 * 1) / 8
-    beta2 = (y1_av1 * (-1) + y2_av2 * (-1) + y3_av3 * 1 + y4_av4 * 1 + y5_av5 * (-1) + y6_av6 * (
-        -1) + y7_av7 * 1 + y8_av8 * 1) / 8
-    beta3 = (y1_av1 * (-1) + y2_av2 * 1 + y3_av3 * (-1) + y4_av4 * 1 + y5_av5 * (-1) + y6_av6 * 1 + y7_av7 * (
-        -1) + y8_av8 * 1) / 8
-    beta4 = (y1_av1 * 1 + y2_av2 * 1 + y3_av3 * (-1) + y4_av4 * (-1) + y5_av5 * (-1) + y6_av6 * (
-        -1) + y7_av7 * 1 + y8_av8 * 1) / 8
-    beta5 = (y1_av1 * 1 + y2_av2 * (-1) + y3_av3 * 1 + y4_av4 * (-1) + y5_av5 * (-1) + y6_av6 * 1 + y7_av7 * (
-        -1) + y8_av8 * 1) / 8
-    beta6 = (y1_av1 * 1 + y2_av2 * (-1) + y3_av3 * (-1) + y4_av4 * 1 + y5_av5 * 1 + y6_av6 * (-1) + y7_av7 * (
-        -1) + y8_av8 * 1) / 8
-    beta7 = (y1_av1 * (-1) + y2_av2 * 1 + y3_av3 * 1 + y4_av4 * (-1) + y5_av5 * 1 + y6_av6 * (-1) + y7_av7 * (
-        -1) + y8_av8 * 1) / 8
-
-    t0 = abs(beta0) / sbs
-    t1 = abs(beta1) / sbs
-    t2 = abs(beta2) / sbs
-    t3 = abs(beta3) / sbs
-    t4 = abs(beta4) / sbs
-    t5 = abs(beta5) / sbs
-    t6 = abs(beta6) / sbs
-    t7 = abs(beta7) / sbs
-
-    f3 = f1 * f2
-    ttabl = round(abs(t.ppf(q / 2, f3)), 4)
-
-    d = 8
-    if (t0 < ttabl):
-        print("t0 < ttabl, b0 не значимий")
-        b0 = 0
-        d = d - 1
-    if (t1 < ttabl):
-        print("t1 < ttabl, b1 не значимий")
-        b1 = 0
-        d = d - 1
-    if (t2 < ttabl):
-        print("t2 < ttabl, b2 не значимий")
-        b2 = 0
-        d = d - 1
-    if (t3 < ttabl):
-        print("t3 < ttabl, b3 не значимий")
-        b3 = 0
-        d = d - 1
-    if (t4 < ttabl):
-        print("t4 < ttabl, b4 не значимий")
-        b4 = 0
-        d = d - 1
-    if (t5 < ttabl):
-        print("t5 < ttabl, b5 не значимий")
-        b5 = 0
-        d = d - 1
-    if (t6 < ttabl):
-        print("t6 < ttabl, b6 не значимий")
-        b6 = 0
-        d = d - 1
-    if (t7 < ttabl):
-        print("t7 < ttabl, b7 не значимий\n")
-        b7 = 0
-        d = d - 1
-
-    yy1 = b0 + b1 * x1_min + b2 * x2_min + b3 * x3_min + b4 * x1_min * x2_min + b5 * x1_min * x3_min + b6 * x2_min * \
-          x3_min + b7 * x1_min * x2_min * x3_min
-    yy2 = b0 + b1 * x1_min + b2 * x2_min + b3 * x3_max + b4 * x1_min * x2_min + b5 * x1_min * x3_max + b6 * x2_min * \
-          x3_max + b7 * x1_min * x2_min * x3_max
-    yy3 = b0 + b1 * x1_min + b2 * x2_max + b3 * x3_min + b4 * x1_min * x2_max + b5 * x1_min * x3_min + b6 * x2_max * \
-          x3_min + b7 * x1_min * x2_max * x3_min
-    yy4 = b0 + b1 * x1_min + b2 * x2_max + b3 * x3_max + b4 * x1_min * x2_max + b5 * x1_min * x3_max + b6 * x2_max * \
-          x3_max + b7 * x1_min * x2_max * x3_max
-    yy5 = b0 + b1 * x1_max + b2 * x2_min + b3 * x3_min + b4 * x1_max * x2_min + b5 * x1_max * x3_min + b6 * x2_min * \
-          x3_min + b7 * x1_max * x2_min * x3_min
-    yy6 = b0 + b1 * x1_max + b2 * x2_min + b3 * x3_max + b4 * x1_max * x2_min + b5 * x1_max * x3_max + b6 * x2_min * \
-          x3_max + b7 * x1_max * x2_min * x3_max
-    yy7 = b0 + b1 * x1_max + b2 * x2_max + b3 * x3_min + b4 * x1_max * x2_max + b5 * x1_max * x3_min + b6 * x2_max * \
-          x3_min + b7 * x1_max * x2_max * x3_min
-    yy8 = b0 + b1 * x1_max + b2 * x2_max + b3 * x3_max + b4 * x1_max * x2_max + b5 * x1_max * x3_max + b6 * x2_max * \
-          x3_max + b7 * x1_max * x2_max * x3_max
-    print("Критерій Фішера")
-    print(d, " значимих коефіцієнтів")
-    f4 = N - d
-    sad = ((yy1 - y1_av1) ** 2 + (yy2 - y2_av2) ** 2 + (yy3 - y3_av3) ** 2 + (yy4 - y4_av4) ** 2 + (
-            yy5 - y5_av5) ** 2 + (
-                   yy6 - y6_av6) ** 2 + (yy7 - y7_av7) ** 2 + (yy8 - y8_av8) ** 2) * (m / (N - d))
-    Fp = sad / sb
-    print("Fp=", round(Fp, 2))
-
-    Ft = round(abs(f.isf(q, f4, f3)), 4)
-
-    cont = 0
-    print("Fp = " + str(round(Fp, 2)) + ", Ft = " + str(Ft))
-    if Fp > Ft:
-        print("Fp > Ft -> Рівняння неадекватне оригіналу")
-        cont = 1
+while True:
+    Gp = max(dcouple) / sum(dcouple)
+    q = 0.05
+    f1 = m - 1
+    f2 = N = 8
+    fisher = f.isf(*[q / f2, f1, (f2 - 1) * f1])
+    Gt = round(fisher / (fisher + (f2 - 1)), 4)
+    print("Gp = " + str(Gp) + ", Gt = " + str(Gt))
+    if Gp > Gt:
+        print("Дисперсія  неоднорідна , збільшуємо m")
+        m += 1
     else:
-        print("Fp < Ft -> Рівняння адекватне оригіналу")
+        print("Gp < Gt -> Дисперсія однорідна\n")
+        print("Критерій Стьюдента")
+        sb = sum(dcouple) / N
+        ssbs = sb / N * m
+        sbs = ssbs ** 0.5
 
+        beta0 = (y1_av1 * 1 + y2_av2 * 1 + y3_av3 * 1 + y4_av4 * 1 + y5_av5 * 1 + y6_av6 * 1 + y7_av7 * 1 + y8_av8 * 1) / 8
+        beta1 = (y1_av1 * (-1) + y2_av2 * (-1) + y3_av3 * (-1) + y4_av4 * (
+            -1) + y5_av5 * 1 + y6_av6 * 1 + y7_av7 * 1 + y8_av8 * 1) / 8
+        beta2 = (y1_av1 * (-1) + y2_av2 * (-1) + y3_av3 * 1 + y4_av4 * 1 + y5_av5 * (-1) + y6_av6 * (
+            -1) + y7_av7 * 1 + y8_av8 * 1) / 8
+        beta3 = (y1_av1 * (-1) + y2_av2 * 1 + y3_av3 * (-1) + y4_av4 * 1 + y5_av5 * (-1) + y6_av6 * 1 + y7_av7 * (
+            -1) + y8_av8 * 1) / 8
+        beta4 = (y1_av1 * 1 + y2_av2 * 1 + y3_av3 * (-1) + y4_av4 * (-1) + y5_av5 * (-1) + y6_av6 * (
+            -1) + y7_av7 * 1 + y8_av8 * 1) / 8
+        beta5 = (y1_av1 * 1 + y2_av2 * (-1) + y3_av3 * 1 + y4_av4 * (-1) + y5_av5 * (-1) + y6_av6 * 1 + y7_av7 * (
+            -1) + y8_av8 * 1) / 8
+        beta6 = (y1_av1 * 1 + y2_av2 * (-1) + y3_av3 * (-1) + y4_av4 * 1 + y5_av5 * 1 + y6_av6 * (-1) + y7_av7 * (
+            -1) + y8_av8 * 1) / 8
+        beta7 = (y1_av1 * (-1) + y2_av2 * 1 + y3_av3 * 1 + y4_av4 * (-1) + y5_av5 * 1 + y6_av6 * (-1) + y7_av7 * (
+            -1) + y8_av8 * 1) / 8
+
+        t0 = abs(beta0) / sbs
+        t1 = abs(beta1) / sbs
+        t2 = abs(beta2) / sbs
+        t3 = abs(beta3) / sbs
+        t4 = abs(beta4) / sbs
+        t5 = abs(beta5) / sbs
+        t6 = abs(beta6) / sbs
+        t7 = abs(beta7) / sbs
+
+        f3 = f1 * f2
+        ttabl = round(abs(t.ppf(q / 2, f3)), 4)
+
+        d = 8
+        if (t0 < ttabl):
+            print("t0 < ttabl, b0 не значимий")
+            b0 = 0
+            d = d - 1
+        if (t1 < ttabl):
+            print("t1 < ttabl, b1 не значимий")
+            b1 = 0
+            d = d - 1
+        if (t2 < ttabl):
+            print("t2 < ttabl, b2 не значимий")
+            b2 = 0
+            d = d - 1
+        if (t3 < ttabl):
+            print("t3 < ttabl, b3 не значимий")
+            b3 = 0
+            d = d - 1
+        if (t4 < ttabl):
+            print("t4 < ttabl, b4 не значимий")
+            b4 = 0
+            d = d - 1
+        if (t5 < ttabl):
+            print("t5 < ttabl, b5 не значимий")
+            b5 = 0
+            d = d - 1
+        if (t6 < ttabl):
+            print("t6 < ttabl, b6 не значимий")
+            b6 = 0
+            d = d - 1
+        if (t7 < ttabl):
+            print("t7 < ttabl, b7 не значимий\n")
+            b7 = 0
+            d = d - 1
+
+        yy1 = b0 + b1 * x1_min + b2 * x2_min + b3 * x3_min + b4 * x1_min * x2_min + b5 * x1_min * x3_min + b6 * x2_min * \
+              x3_min + b7 * x1_min * x2_min * x3_min
+        yy2 = b0 + b1 * x1_min + b2 * x2_min + b3 * x3_max + b4 * x1_min * x2_min + b5 * x1_min * x3_max + b6 * x2_min * \
+              x3_max + b7 * x1_min * x2_min * x3_max
+        yy3 = b0 + b1 * x1_min + b2 * x2_max + b3 * x3_min + b4 * x1_min * x2_max + b5 * x1_min * x3_min + b6 * x2_max * \
+              x3_min + b7 * x1_min * x2_max * x3_min
+        yy4 = b0 + b1 * x1_min + b2 * x2_max + b3 * x3_max + b4 * x1_min * x2_max + b5 * x1_min * x3_max + b6 * x2_max * \
+              x3_max + b7 * x1_min * x2_max * x3_max
+        yy5 = b0 + b1 * x1_max + b2 * x2_min + b3 * x3_min + b4 * x1_max * x2_min + b5 * x1_max * x3_min + b6 * x2_min * \
+              x3_min + b7 * x1_max * x2_min * x3_min
+        yy6 = b0 + b1 * x1_max + b2 * x2_min + b3 * x3_max + b4 * x1_max * x2_min + b5 * x1_max * x3_max + b6 * x2_min * \
+              x3_max + b7 * x1_max * x2_min * x3_max
+        yy7 = b0 + b1 * x1_max + b2 * x2_max + b3 * x3_min + b4 * x1_max * x2_max + b5 * x1_max * x3_min + b6 * x2_max * \
+              x3_min + b7 * x1_max * x2_max * x3_min
+        yy8 = b0 + b1 * x1_max + b2 * x2_max + b3 * x3_max + b4 * x1_max * x2_max + b5 * x1_max * x3_max + b6 * x2_max * \
+              x3_max + b7 * x1_max * x2_max * x3_max
+        print("Критерій Фішера")
+        print(d, " значимих коефіцієнтів")
+        f4 = N - d
+        sad = ((yy1 - y1_av1) ** 2 + (yy2 - y2_av2) ** 2 + (yy3 - y3_av3) ** 2 + (yy4 - y4_av4) ** 2 + (
+                yy5 - y5_av5) ** 2 + (
+                       yy6 - y6_av6) ** 2 + (yy7 - y7_av7) ** 2 + (yy8 - y8_av8) ** 2) * (m / (N - d))
+        Fp = sad / sb
+        print("Fp=", round(Fp, 2))
+
+        Ft = round(abs(f.isf(q, f4, f3)), 4)
+
+        cont = 0
+        print("Fp = " + str(round(Fp, 2)) + ", Ft = " + str(Ft))
+        if Fp > Ft:
+            print("Fp > Ft -> Рівняння неадекватне оригіналу")
+            cont = 1
+        else:
+            print("Fp < Ft -> Рівняння адекватне оригіналу")
+        break
